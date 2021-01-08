@@ -1,0 +1,11 @@
+Time: 2020-12-23 19:46:29
+Ver: 1.07
+Revision: 5695, 2020-05-16T13:12:58.990875Z
+fteqw64(+0x2326a3)[0x562253c136a3]
+fteqw64(+0x24214b)[0x562253c2314b]
+fteqw64(+0x24252d)[0x562253c2352d]
+fteqw64(+0x240d39)[0x562253c21d39]
+fteqw64(+0x16a71d)[0x562253b4b71d]
+/usr/lib/libpthread.so.0(+0x8f27)[0x7f0f8bb17f27]
+/usr/lib/libc.so.6(clone+0x3f)[0x7f0f8ba48e0f]
+
