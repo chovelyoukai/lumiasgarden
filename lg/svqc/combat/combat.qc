@@ -1,8 +1,8 @@
-//====
+// combat.qc
 //
-// combat.qc: handles basic combat functions shared by all weapons
+// handle basic combat functions shared by all weapons
 //
-//====
+// this file is licensed under the GPL v3
 
 // used to check if attacker can actually hit target
 // with splash damage
@@ -44,9 +44,14 @@ float canDamage(entity target, entity inflictor)
 	return FALSE;
 }
 
+// called when something is killed
 void killed(entity target, entity attacker)
 {
 	local entity oldSelf, grenade;
+
+	// can only kill players
+	if (target.classname != "player")
+		return;
 
 	oldSelf = self;
 	self = target;
@@ -77,6 +82,7 @@ void killed(entity target, entity attacker)
 	self = oldSelf;
 }
 
+// add the velocity gained from taking damage (knockback)
 void addVelocity(entity target, entity inflictor, entity attacker,
 	float damage)
 {
@@ -112,6 +118,9 @@ void addVelocity(entity target, entity inflictor, entity attacker,
 	}
 }
 
+// apply damage to an enemy (does not affect health at all)
+// target is the victim, inflictor is the weapon, and attacker is the
+// source of the attack
 void applyDmg(entity target, entity inflictor, entity attacker,
 	float damage)
 {
@@ -145,6 +154,7 @@ void applyDmg(entity target, entity inflictor, entity attacker,
 	*/
 }
 
+// do damage to anything in a particular range
 void applyRadiusDmg(entity inflictor, entity attacker, float damage,
 	entity ignore)
 {
@@ -190,7 +200,6 @@ void applyRadiusDmg(entity inflictor, entity attacker, float damage,
 			applyDmg(head, inflictor, attacker, points);
 		}
 
-		//head.rocketJumpFlag = 1;
 		head = head.chain;
 	}
 }

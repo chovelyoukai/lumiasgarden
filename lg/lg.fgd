@@ -1,0 +1,132 @@
+// Lumia's Garden FGD
+// Licensed under the GPL v3
+
+// World entity definition
+@SolidClass = worldspawn : "World Entity"
+[
+	message(string) : "Map description"
+	light(integer) : "Ambient light"
+	_sunlight(integer) : "Sunlight"
+	_sun_mangle(string) : "Sun angle (yaw pitch roll)"
+]
+
+// base class definitions
+
+@BaseClass = Angle
+[
+	angle (integer) : "Direction"
+]
+
+@BaseClass = Targetname
+[
+	targetname(target_source) : "Name"
+]
+
+@BaseClass = Target
+[
+	target(target_destination) : "Target"
+	killtarget(target_destination) : "Killtarget"
+]
+
+@BaseClass
+	size(-24 -24 -32, 24 24 48)
+	color(0 255 0)
+	model({"path" : ":progs/player.iqm"}) = PlayerClass []
+
+@BaseClass base(Target, Targetname) = Item
+[
+	message(string) : "pick up message"
+	target(string) : "Target"
+	killtarget(string) : "Kill target"
+	delay(integer) : "Delay"
+]
+
+@BaseClass size(-16 -16 0, 16 16 56) color(255 0 255)
+	base(Item) = Powerup []
+
+@BaseClass color(255 255 0) = Light
+[
+	light(integer) : "Brightness" : 400
+	wait(integer) : "Fade distance multiplier" : 1
+	delay(choices) : "Attenuation" =
+	[
+		0 : "Linear"
+		1 : "Inverse distance"
+		2 : "Inverse distance squared"
+		3 : "No falloff"
+		4 : "Local minlight"
+		5 : "Inverse distance squared B"
+	]
+	mangle(string) : "Spotlight angle"
+	style(choices) : "Apperance" : 0 =
+	[
+		0 : "Normal"
+		10 : "Flourescent flicker"
+		2 : "Slow deep pulse"
+		11 : "Slow shallow pulse"
+		5 : "Gentle pulse"
+		1 : "Flicker A"
+		6 : "Flicker B"
+		3 : "Candle A"
+		7 : "Candle B"
+		8 : "Candle C"
+		4 : "Fast strobe"
+		9 : "Slow strobe"
+	]
+]
+
+@BaseClass base(Target, Targetname) = Trigger
+[
+	delay(string) : "Delay before trigger" : "0"
+]
+
+// point entities
+
+@PointClass base(PlayerClass) = info_player_start
+	: "Player spawn" []
+
+@PointClass base(PlayerClass) = info_teleport_destination
+	: "Teleporter destination" []
+
+@PointClass color(200 150 150) = info_null
+	: "Generic target" []
+
+@PointClass base(Target, Targetname) color (255 0 0)
+	= info_notnull : "Custom entity"
+[
+	think(string) : "self.think"
+	nextthink(integer) : "self.nextthink"
+	touch(string) : "self.touch"
+]
+
+@PointClass size(-8 -8 -8, 8 8 8) base(Light, Target, Targetname)
+	= light : "Point light source" []
+
+// solid entities
+
+@SolidClass = func_illusionary : "Static nonsolid model" []
+@SolidClass = func_group : "Group of brushes (no effect in game)" []
+@SolidClass = func_detail_illusionary
+	: "Non-solid func_detail, doesn't split faces" []
+@SolidClass = func_detail_wall
+	: "func_detail that doesn't split world faces" []
+
+// triggers
+
+@SolidClass base(Trigger) = trigger_once : "One-time trigger" []
+@SolidClass base(Trigger) = trigger_multiple : "Many-time trigger" []
+@SolidClass base(Trigger) = trigger_teleport : "Teleporter" []
+
+// function volumes
+
+@SolidClass = func_restrictmove : "Restrict types of movement"
+[
+	restrict_flags(flags) =
+	[
+		1 : "No rockets"
+		2 : "No stickybombs"
+		4 : "No grappling hooks"
+		8 : "No concussion grenades"
+		16 : "No wallrunning"
+	]
+]

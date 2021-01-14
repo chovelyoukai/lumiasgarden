@@ -1,4 +1,10 @@
-// called in player prethink
+// wallrun.qc
+//
+// this file contains all the wallrunning physics stuff 
+//
+// this file is licensed under the GPL v3
+
+// wallrun physics function called in playerPreThink
 void wallrun()
 {
 	local vector right, up, traceOrigin;

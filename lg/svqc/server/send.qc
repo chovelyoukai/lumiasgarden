@@ -1,5 +1,13 @@
+// send.qc
+//
+// this file sends special entities to clients over the network
+//
+// this file is licensed under the GPL v3
+
 entity spawnTracker(); 
 
+// send the location of a tracker entity so the client can update their
+// radar. note the difference bwtween sendFlags and SendFlags
 float trackerSend(entity to, float sendFlags) 
 {
 	local float id = 1;
@@ -27,24 +35,16 @@ float trackerSend(entity to, float sendFlags)
 	return TRUE;
 }
 
-// something is broken in the engine I think, so every update we
-// will just spawn a new tracker and remove the old one.
+// the tracker think function, which updates every 0.3 seconds
 void trackerUpdate()
 {
-	//entity oldSelf;
-
-	//oldSelf = self;
-	//self = self.owner;
-	//self.tracker = spawnTracker();
-	//self = oldSelf;
-	//remove(self);
-
 	self.SendFlags |= 1;
 	setOrigin(self, self.owner.origin);
 	self.nextthink = time + 0.3;
 	self.think = trackerUpdate;
 }
 
+// this is called when a client connects from server.qc
 entity spawnTracker()
 {
 	local entity t = spawn();

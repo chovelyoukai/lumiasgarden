@@ -1,11 +1,20 @@
+// world.qc
+//
+// this file contains the spawn function for the world, all the
+// asset precaches, and light style information
+//
+// this file is licensed under the GPL v3
+
 // keeps track of the last spawn used
 entity lastSpawn;
 
+// this is required by the engine but it doesn't do anything
 void main()
 {
 
 }
 
+// load all the models before they are used
 void precacheModels()
 {
 	precache_model("progs/weapon_world/w_conc.iqm");
@@ -18,6 +27,7 @@ void precacheModels()
 
 }
 
+// load all the sounds so they are used
 void precacheSounds()
 {
 	precache_sound("objects/timer.wav");
@@ -34,13 +44,14 @@ void precacheSounds()
 	precache_sound("weapons/swing.wav");
 }
 
+// this is the spawn function for the world itself
 void worldspawn()
 {
 	precacheModels();
 	precacheSounds();
 	
 	//
-	// Setup light animation tables. 'a' is total darkness, 'z' is maxbright.
+	// Setup light animation tables. 'a' is total darkness, 'z' is maxbright
 	//
 
 	// 0 normal
@@ -98,6 +109,8 @@ void worldspawn()
 	//clientStat(STAT_LG_TELE_TIME, EV_FLOAT, stat_tele_time);
 }
 
+// the following 3 functions are required by the engine but are not used
+// in this game
 void SetNewParms()
 {
 

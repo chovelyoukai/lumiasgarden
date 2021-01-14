@@ -1,3 +1,11 @@
+// conc.qc
+//
+// all the functions required for conc grenades
+//
+// this file is licensed under the GPL v3
+
+// the knockback function for conc grenades, based on the function
+// from TF
 void radiusBounce(entity inflictor, entity attacker, float bounce, entity ignore)
 {
 	// TODO: make this way more efficient. it only deals knockback
@@ -45,6 +53,7 @@ void radiusBounce(entity inflictor, entity attacker, float bounce, entity ignore
 	}
 }
 
+// explode function for concs that have actually been thrown
 void() concExplode =
 {
 	radiusBounce (self, self.owner, 240, world);
@@ -58,6 +67,7 @@ void() concExplode =
 	becomeExplosion ();
 }
 
+// conc touch function
 void() concTouch =
 {
 	sound (self, CHAN_WEAPON, "ui/slap.wav", 0.1, ATTN_NORM);
@@ -65,6 +75,10 @@ void() concTouch =
 		self.avelocity = '0 0 0';
 }
 
+// this is the think function for the timer entity spawned when the
+// player primes a conc grenade. it will try to throw the conc if
+// the player has let go of the button, otherwise it will try again
+// in 0.02 seconds
 void throwConc()
 {
 	local entity conc;
@@ -153,6 +167,9 @@ void throwConc()
 	remove(self);
 }
 
+// this function is called from weapons.qc. it creates a timer entity
+// that will keep track of whether or not the conc should be thrown
+// and how long it has until it explodes
 void primeConc()
 {
 	local entity timer;
@@ -165,7 +182,6 @@ void primeConc()
 		return;
 	}
 	
-
 	if (self.holdingGrenade)
 		return;
 
@@ -179,7 +195,7 @@ void primeConc()
 
 	// the timer will check every 0.02 seconds to see if the conc
 	// should be thrown or not.
-	// if the timer runs out, then the missle will explode
+	// if the timer runs out, then the conc will explode
 	// on the player.
 
 	timer = spawn();

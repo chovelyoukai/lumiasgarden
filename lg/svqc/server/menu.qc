@@ -1,3 +1,11 @@
+// menu.qc
+//
+// this handles the input from the client for the weapon select menus 
+//
+// this file is licensed under the GPL v3
+
+// this function is called from weapons.qc if the player is currently
+// in a menu
 void menuInput(float input)
 {
 	if (self.openMenu == MENU_PRIM)

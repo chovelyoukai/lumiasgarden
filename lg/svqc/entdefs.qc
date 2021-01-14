@@ -1,8 +1,8 @@
-//=====
+// entdefs.qc
 //
 // various fields used in utility entites
 //
-//=====
+// this file is licensed under the GPL v3
 
 .float countdown; // conc timer countdown
 

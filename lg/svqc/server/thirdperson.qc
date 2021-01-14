@@ -1,9 +1,18 @@
+// thirdperson.qc
+//
+// the server connect and disconnect functions are in this file 
+//
+// this file is licensed under the GPL v3
+
+// the camera think function that makes it follow the player
 void updateCamera()
 {
 	local vector camOrg;
 
 	makeVectors(self.owner.v_angle);
 
+	// go back as far as we can without hitting anything
+	// TODO: make these constants not magic numbers
 	traceLine(self.owner.origin + self.owner.view_ofs,
 		self.owner.origin + (self.owner.view_ofs) +
 		(v_forward * -64) + (v_up * -32), TRUE, self);
@@ -15,9 +24,10 @@ void updateCamera()
 
 	setOrigin(self, camOrg);
 
-	self.nextthink = time + 0.005;
+	self.nextthink = time + 0.015;
 }
 
+// this function sets the player view at the given entity
 void setViewPoint(entity spot)
 {
 	msg_entity = self;
@@ -25,6 +35,7 @@ void setViewPoint(entity spot)
 	writeEntity(1, spot);
 }
 
+// this function spawns a camera entity and sets it to our view point
 void thirdpersonOn()
 {
 	local entity cam;
@@ -43,6 +54,7 @@ void thirdpersonOn()
 	stuffCmd(self, "r_drawviewmodel 0\n");
 }
 
+// this function deletes the camera and puts us back in our own body
 void thirdpersonOff()
 {
 	setViewPoint(self);
@@ -51,6 +63,7 @@ void thirdpersonOff()
 	stuffCmd(self, "r_drawviewmodel 1\n");
 }
 
+// this function toggles between third and first person
 void thirdpersonToggle()
 {
 	// self.camera is set to world when there is no camera.
@@ -60,6 +73,8 @@ void thirdpersonToggle()
 		thirdpersonOff();
 }
 
+// this function changes whether or not we are stuck, as in while
+// sitting
 void toggleStuck()
 {
 	if (!self.stuck)

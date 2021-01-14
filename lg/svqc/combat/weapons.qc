@@ -1,6 +1,14 @@
+// weapons.qc
+//
+// this file handles shooting weapons, as well as input impulses
+// TODO: move input impulses to a different file
+//
+// this file is licensed under the GPL v3
+
 void menuInput(float input);
 void thirdpersonToggle();
 
+// called on +attack with a shootable weapon
 void attack()
 {
 	// precalculate forward attack angle
@@ -37,14 +45,17 @@ void attack()
 	else if (self.weapon == IT_CHOVEL)
 	{
 		sound(self, CHAN_WEAPON, "weapons/swing.wav", 0.6, ATTN_NORM);
+		// the actual swing function doesn't start until a little bit
+		// into the animation, so it is called in playeranims.qc
 		anim_playerAttack();
 		self.attackFinished = time + 0.96;
 	}
-
 }
 
+// this function selects a new weapon on impulse commands
 void changeWeapon()
 {
+	// if we have selected the weapon we are already holding, do nothing
 	if (self.impulse == self.weapon + 1)
 		return;
 
@@ -99,8 +110,10 @@ void changeWeapon()
 	}
 }
 
+// handle various input impulses from the client
 void impulseCommands()
 {
+	// if we're in a menu, re-route the input to the menu function
 	if (self.inMenu)
 	{
 		menuInput(self.impulse);
@@ -110,15 +123,19 @@ void impulseCommands()
 	if (self.impulse >= 1 && self.impulse <= 3)
 		changeWeapon();
 
+	// TODO: change these impulses to defines
+	// TODO: add suicide cooldown
 	if (self.impulse == 254)
 		killed(self, self);
 	else if (self.impulse == 253)
 	{
 		self.switchWeps = TRUE;
+		// TODO: change from a centerprint to a client-side print
 		centerPrint(self, "You can switch weapons on respawn.\n");
 	}
 	else if (self.impulse == 252)
 		thirdpersonToggle();
+	// the sit animation
 	else if (self.impulse == 251)
 	{
 		if (self.stuck)
@@ -136,6 +153,7 @@ void impulseCommands()
 	self.impulse = 0;
 }
 
+// this is called every frame in playerPostThink, after physics is run
 void weaponFrame()
 {
 	if (self.impulse)
@@ -211,7 +229,7 @@ void weaponFrame()
 	if (self.overloaded > 0 && self.overloaded < 6 &&
 		!self.spewing && !self.button0)
 	{
-		// if some was already overloaded, then don't fire it a second
+		// if some were already overloaded, then don't fire them a second
 		// time
 		if (self.overloaded > 3)
 			self.overloaded = 6 - self.overloaded;

@@ -1,3 +1,9 @@
+// explode.qc
+//
+// the explosion function used by many different weapons
+//
+// this file is licensed under the GPL v3
+
 // explosion animations
 void animExplode1() = [0, animExplode2] {};
 void animExplode2() = [1, animExplode3] {};

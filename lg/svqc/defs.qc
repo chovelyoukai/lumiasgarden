@@ -1,3 +1,10 @@
+// defs.qc
+//
+// game-wide definitions, global variables, and built-in functions
+//
+// this file is licensed under the GPL v3
+
+
 //==========
 //
 // system globals
@@ -281,3 +288,4 @@ void setSpawnParms(entity e) = #78; // set parm1... to the
                                     // values at level start
                                     // for coop respawn
 void clientStat(float num, float type, ...) = #232;
+void runStandardPlayerPhysics(entity ent) = #347;

@@ -1,3 +1,12 @@
+// grapple.qc
+//
+// all the functions required for the grappling hook
+//
+// this file is licensed under the GPL v3
+
+// this function is called in playerPreThink every frame if the
+// player is currently grappled, and it will pull the player if 
+// the player is too far away
 void grapplePull()
 {
 	local float dist = vlen(self.origin - self.grapple.origin);
@@ -5,12 +14,16 @@ void grapplePull()
 
 	if (dist > self.grappleDistance)
 	{
+		// remove the part of our velocity pulling against the rope
 		self.velocity = self.velocity - proj(self.velocity, separated);
 		// give a small boost back up to keep from slowly dropping
-		self.velocity -= (dist - self.grappleDistance) * normalize(separated);
+		self.velocity -= (dist - self.grappleDistance)
+			* normalize(separated);
 	}
 }
 
+// touch function for the grapple hook, will stick it to things and
+// activate the grapple status for the player
 void grappleTouch()
 {
 	if (other == self.owner)
@@ -31,6 +44,7 @@ void grappleTouch()
 		self.avelocity = '0 0 0';
 }
 
+// grapple shoot function called from weapons.qc
 void fireGrapple()
 {
 	local entity hook;

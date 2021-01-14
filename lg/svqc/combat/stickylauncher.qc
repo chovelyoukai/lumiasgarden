@@ -1,3 +1,10 @@
+// rocket.qc
+//
+// all the functions required for the stickybomb launcher
+//
+// this file is licensed under the GPL v3
+
+// called when grenades explode
 void grenadeExplode()
 {
 	applyRadiusDmg(self, self.owner, 170, world);
@@ -11,6 +18,7 @@ void grenadeExplode()
 	becomeExplosion();
 }
 
+// the grenade touch function that sticks it to things
 void grenadeTouch()
 {
 	if (other == self.owner)
@@ -29,6 +37,7 @@ void grenadeTouch()
 		self.avelocity = '0 0 0';
 }
 
+// the shoot function called from weapons.qc
 void fireGrenade()
 {
 	local entity grenade, oldGrenade;
@@ -117,6 +126,7 @@ void fireGrenade()
 	grenade.effects |= EF_MUZZLEFLASH | EF_DIMLIGHT;
 }
 
+// this is also called from weapons.qc when the player uses +attack2
 void blowGrenades()
 {
 	local entity grenade;
@@ -145,6 +155,8 @@ void blowGrenades()
 			self.grenades--;
 		}
 
+		// this fixes some kind of glitch where we get a negative number
+		// of grenades, and thus can shoot more than two
 		if (self.grenades < 0)
 			self.grenades = 0;
 

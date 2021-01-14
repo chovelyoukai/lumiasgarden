@@ -1,3 +1,11 @@
+// rocket.qc
+//
+// all the functions required for the best weapon in the game ^H^H^H^H
+// ^H^H^H^H the rocket launcher
+//
+// this file is licensed under the GPL v3
+
+// touch function for the rocket itself
 void rocketTouch()
 {
 	local float damage;
@@ -44,6 +52,7 @@ void rocketTouch()
 	becomeExplosion();
 }
 
+// the shoot function called from weapons.qc
 void fireRocket()
 {
 	local entity rocket;

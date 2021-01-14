@@ -1,3 +1,14 @@
+// funcs.qc
+//
+// this file contains the spawn function for function entities 
+//
+// function entities are brush entities that have some passive effect in
+// their borders.
+//
+// this file is licensed under the GPL v3
+
+// this is the touch function for func_restrictmove, which disallows
+// certain kinds of movement in it's volume
 void func_restrictmoveTouch()
 {
 	if (self.restrict_flags & RESTRICT_ROCKET &&
@@ -34,6 +45,7 @@ void func_restrictmoveTouch()
 	}
 }
 
+// this is the spawn function for func_restrictmove
 void func_restrictmove()
 {
 	if (!self.restrict_flags)

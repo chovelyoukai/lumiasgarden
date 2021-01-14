@@ -1,3 +1,11 @@
+// overload.qc
+//
+// all the functions required for the overloader weapon
+//
+// this file is licensed under the GPL v3
+
+// this function is used for when the overloader overloads, causing
+// an explosion on the player that pushes them around
 void() overloadExplode =
 {
 	local float	damg;
@@ -24,6 +32,9 @@ void() overloadExplode =
 	self = oldself;
 };
 
+// this is the function called from weapons.qc
+// the actual shooting of rockets is handled in weapons.qc
+// TODO: move the weapons.qc code into a dedicated function in here
 void fireOverload()
 {
 	// can't load while currently firing.
