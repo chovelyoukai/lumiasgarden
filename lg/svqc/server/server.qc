@@ -112,6 +112,7 @@ void PutClientInServer()
 	self.weaponmodel = "progs/weapon_views/v_rocket.iqm";
 	self.thinkDie = playerDie;
 	self.rocketJumpFlag = TRUE;
+	self.effects |= EF_FULLBRIGHT;
 
 	// set initial animations for the rocket launcher
 	self.idlePose = POSE_RL_IDLE;
