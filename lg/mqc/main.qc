@@ -20,7 +20,7 @@ void m_init()
 	precache_sound("twentytwelvehoax.wav");
 	menuActive = FALSE;
 	splashTime = time - 4;
-	drawfont = loadfont("", autocvar(menu_font, "LiberationMono-Regular.ttf"), "16", -1, 0, 0);
+	drawfont = loadfont("", autocvar(menu_font, "LiberationMono-Regular.ttf"), "16 24", -1, 0, 0);
 //	localsound("twentytwelvehoax.wav");
 	setwindowcaption("Lumia's Garden");
 	selected = 0;
