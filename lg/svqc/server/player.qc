@@ -71,6 +71,9 @@ void PlayerPreThink()
 	if (self.grappled)
 		grapplePull();
 
+	// see if we are looking at a player and set our lookName to that
+	playerLook();
+
 	// if we're holding jump, then store our rocketJumpFlag status
 	// even if we hit the ground
 	if (self.button2)

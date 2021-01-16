@@ -289,3 +289,4 @@ void setSpawnParms(entity e) = #78; // set parm1... to the
                                     // for coop respawn
 void clientStat(float num, float type, ...) = #232;
 void runStandardPlayerPhysics(entity ent) = #347;
+void writeFloat(float to, float f) = #280;

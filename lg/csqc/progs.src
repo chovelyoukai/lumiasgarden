@@ -1,12 +1,13 @@
 ../csprogs.dat
 csdefs.qc
 lgcsdefs.qc
+subs.qc
 music.qc
 print.qc
 menu.qc
-damage.qc
 sounds.qc
 recieve.qc
 radar.qc
+damage.qc
 main.qc
 

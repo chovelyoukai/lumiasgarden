@@ -106,6 +106,7 @@ void worldspawn()
 	clientStat(STAT_LG_PP, EV_FLOAT, v_angle_y);
 	clientStat(STAT_LG_IN_MENU, EV_FLOAT, inMenu);
 	clientStat(STAT_LG_OPEN_MENU, EV_FLOAT, openMenu);
+	clientStat(STAT_LG_LOOK_NAME, EV_STRING, lookName);
 	//clientStat(STAT_LG_TELE_TIME, EV_FLOAT, stat_tele_time);
 }
 

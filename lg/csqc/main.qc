@@ -8,11 +8,6 @@ void CSQC_Init(float apiver, string enginename, float enginever)
 	precache_sound("ui/kill.wav");
 	precache_sound("music/sadness.wav");
 	precache_file("gfx/radar.lmp");
-	oldStatHurt = getstatf(STAT_LG_HURT);
-	oldStatHit = getstatf(STAT_LG_HIT);
-	oldStatKill = getstatf(STAT_LG_KILL);
-	indicatorTime1 = 0;
-	indicatorTime2 = 0;
 	
 	playing = TRUE;
 
@@ -44,15 +39,15 @@ void CSQC_UpdateView(float width, float height, float menushown)
 
 	drawRadar(width, height);
 
-	checkDamage();
 	drawDamageIndicator(width, height);
 
 	drawMenu(width, height);
 
-	playSounds();
+	drawCrosshairString(width, height);
+
 	if (!playing)
 	{
 		playMusic();
 		playing = TRUE;
 	}
-};
+}

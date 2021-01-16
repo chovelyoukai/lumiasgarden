@@ -168,6 +168,7 @@ float STAT_LG_PZ        = 38;
 float STAT_LG_PP        = 39;
 float STAT_LG_IN_MENU   = 40;
 float STAT_LG_OPEN_MENU = 41;
+float STAT_LG_LOOK_NAME = 42;
 
 // flags for the func_restrictmove trigger
 const float RESTRICT_ROCKET  = 1; 
@@ -181,6 +182,7 @@ const float EF_BRIGHTFIELD = 1;
 const float EF_MUZZLEFLASH = 2;
 const float EF_BRIGHTLIGHT = 4;
 const float EF_DIMLIGHT    = 8;
+const float EF_FULLBRIGHT  = 512; 
 
 // player animation poses
 const float POSE_RL_IDLE     = 0;
@@ -198,3 +200,10 @@ const float POSE_CH_RUN_ATT  = 11;
 const float POSE_SIT_ENTER   = 12;
 const float POSE_SIT_IDLE    = 13;
 const float POSE_SIT_LEAVE   = 14;
+
+// entity IDs for networking
+const float ENT_TRACKER = 1;
+const float ENT_DAMAGER = 2;
+const float ENT_HURT    = 3;
+const float ENT_KILL    = 4;
+const float ENT_NAME    = 5;

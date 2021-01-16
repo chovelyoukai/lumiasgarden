@@ -26,13 +26,28 @@ void ClientConnect()
 	// print join message
 	bprint(self.netname);
 	bprint(" has connected.\n");
+
+	stuffCmd(self, "exec configs/particles/lg_particles.cfg\n");
 }
 
 void ClientDisconnect()
 {
-	// leave message
-	bprint(self.netname);
-	bprint(" has disconnected.\n");
+	local entity grenade;
+
+	remove(self.tracker);
+
+	grenade = world;
+	grenade = nextEnt(grenade);
+	while(grenade)
+	{
+		if (grenade.classname == "grenade" && grenade.owner == self)
+			remove(grenade);
+
+		grenade = nextEnt(grenade);
+	}
+
+	if (self.grapple != world)
+		remove(self.grapple);
 }
 
 // choose a spawn point to put the player at

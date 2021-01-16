@@ -87,3 +87,6 @@
 
 // what to do when killed
 .void() thinkDie;
+
+// what the player is looking at
+.string lookName;

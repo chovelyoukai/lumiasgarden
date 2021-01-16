@@ -10,3 +10,7 @@
 .float armTime;
 .float launchTime;
 .float exploding;
+
+// extra model animations
+.float basebone;
+.float baseframe;

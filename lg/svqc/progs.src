@@ -9,6 +9,7 @@ math.qc
 
 server/thirdperson.qc
 server/playeranims.qc
+server/send.qc
 
 combat/combat.qc
 combat/chovel.qc
@@ -24,9 +25,9 @@ objects/triggers.qc
 objects/funcs.qc
 
 server/world.qc
-server/send.qc
 server/server.qc
 server/menu.qc
 server/wallrun.qc
+server/look.qc
 server/player.qc
 dummy.qc

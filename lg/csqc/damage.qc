@@ -1,53 +1,52 @@
-float oldStatHurt;
-float indicatorTime1, indicatorTime2;
-float damage1, damage2;
+#define HURT_DIST 512
 
-void() checkDamage =
+void drawDamageIndicator(float width, float height)
 {
-	local float newStat;
+	local vector playerOrg = getPlayerPosition();
+	local vector sizeMin, sizeMax;
+	local float x = width / 2;
+	local float y = height / 2;
+	local float v_angle;
+	local float drawAngle;
+	local float alpha;
+	local entity damager;
 
-	newStat = getstatf(STAT_LG_HURT);
-	
-	if (newStat == oldStatHurt)
-		return;
-	
-	// is the first indicator still being drawn?
-	if (indicatorTime1 > time)
+	damager = world;
+	damager = nextent(damager);
+
+	while (damager)
 	{
-		// if the second indicator is also being drawn,
-		// overwrite the first.
-		if (indicatorTime2 > time)
+		if (damager.classname == "damager")
 		{
-			damage1 = getstatf(STAT_LG_DAMAGE);
-			indicatorTime1 = time + 0.5;
+			v_angle = TWOPI360 * getstatf(STAT_LG_PP);
+
+			// reorient the angle in the world
+			v_angle += ONEHALFPI;
+			// correct for quadrant IV
+			if (v_angle < 0)
+				v_angle += 4 * ONEHALFPI;
+
+			drawAngle = atan((-damager.origin_y + playerOrg_y)
+					/ (-damager.origin_x + playerOrg_x));
+
+			// reorient the angle in the world
+			drawAngle += ONEHALFPI;
+			// correct for over lower quadrants 
+			if (damager.origin_x < playerOrg_x)
+				drawAngle += 2 * ONEHALFPI;
+
+			drawAngle = v_angle - drawAngle;
+
+			alpha = damager.timeLeft - time; 
+
+			sizeMin_x = -damager.health;
+			sizeMin_y = -damager.health;
+			sizeMax_x = damager.health;
+			sizeMax_y = damager.health;
+
+			drawrotpic([x, y], sizeMin, sizeMax, "gfx/hurt.png",
+				'1 1 1', alpha, drawAngle / TWOPI360);
 		}
-		else
-		{
-			damage2 = getstatf(STAT_LG_DAMAGE);
-			indicatorTime2 = time + 0.5;
-		}
+		damager = nextent(damager);
 	}
-	else
-	{
-		damage1 = getstatf(STAT_LG_DAMAGE);
-		indicatorTime1 = time + 0.5;
-	}
-
-	oldStatHurt = newStat;
-};
-
-void(float width, float height) drawDamageIndicator =
-{
-	local float size1 = floor(damage1 * 0.6);
-	local float size2 = floor(damage2 * 0.6);
-	local float alpha1 = (indicatorTime1 - time) * 2;
-	local float alpha2 = (indicatorTime2 - time) * 2;
-
-	if (time < indicatorTime1)
-		drawfill([(width - size1) / 2, (height - (size1 / 3)) / 2],
-			[size1, size1 / 3], '255 0 0', alpha1, 1);
-
-	if (time < indicatorTime2)
-		drawfill([(width - (size2 / 3)) / 2, (height - size2) / 2],
-			[size2 / 3, size2], '255 0 0' , alpha2, 1);
-};
+}

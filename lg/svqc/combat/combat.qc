@@ -4,6 +4,42 @@
 //
 // this file is licensed under the GPL v3
 
+// print a death message
+void obituary(string killed, string killer)
+{
+	local float msgNum = random() * 100;
+	bprint(killer);
+	if (killer != killed)
+	{
+		if (msgNum > 80)
+			bprint(" choveled ");
+		else if (msgNum > 60)
+			bprint(" gicced ");
+		else if (msgNum > 40)
+			bprint(" gardened ");
+		else if (msgNum > 20)
+			bprint(" spooned ");
+		else
+			bprint(" freezeglitched ");
+		bprint(killed);
+	}
+	else
+	{
+		if (msgNum > 80)
+			bprint(" gave it all up");
+		else if (msgNum > 60)
+			bprint(" strategically retreated fatally");
+		else if (msgNum > 40)
+			bprint(" bid farewell, cruel world");
+		else if (msgNum > 20)
+			bprint(" has had enough of you guys");
+		else
+			bprint(" choveled themselves");
+	}
+
+	bprint(".\n");
+}
+
 // used to check if attacker can actually hit target
 // with splash damage
 float canDamage(entity target, entity inflictor)
@@ -80,6 +116,11 @@ void killed(entity target, entity attacker)
 	self.thinkDie();
 
 	self = oldSelf;
+	
+	if (target != attacker)
+		spawnKill(attacker);
+
+	obituary(target.netname, attacker.netname);
 }
 
 // add the velocity gained from taking damage (knockback)
@@ -152,6 +193,13 @@ void applyDmg(entity target, entity inflictor, entity attacker,
 
 	self = oldself;
 	*/
+
+	if (target.classname == "player")
+	{
+		spawnDamager(target, damage, inflictor.origin);
+		if (target != attacker)
+			spawnHurt(attacker, damage);
+	}
 }
 
 // do damage to anything in a particular range

@@ -149,6 +149,10 @@ void impulseCommands()
 			}
 		}
 	}
+	else if (self.impulse == 69)
+	{
+		sprint(self, "nice\n");
+	}
 
 	self.impulse = 0;
 }
