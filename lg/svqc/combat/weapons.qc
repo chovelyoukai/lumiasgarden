@@ -15,12 +15,17 @@ void attack()
 
 	if (self.weapon == IT_ROCKET_LAUNCHER)
 	{
-		if (self.prim == PRIM_ROCKET_LAUNCHER ||
-			self.prim == PRIM_IMPLOSION)
+		if (self.prim == PRIM_ROCKET_LAUNCHER)
 		{
 			anim_playerAttack();
 			fireRocket();
 			self.attackFinishedRocket = time + 0.8;
+		}
+		else if (self.prim == PRIM_IMPLOSION)
+		{
+			anim_playerAttack();
+			fireRocket();
+			self.attackFinishedRocket = time + 0.4;
 		}
 		else if (self.prim == PRIM_OVERLOADER)
 		{
