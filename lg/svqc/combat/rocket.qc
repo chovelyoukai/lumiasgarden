@@ -80,7 +80,7 @@ void fireRocket()
 	rocket.think = SUB_remove;
 
 	setModel(rocket, "progs/weapon_world/w_rocket.iqm");
-	setSize(rocket, '0 0 0', '0 0 0'); // TODO: ???
+	setSize(rocket, '0 0 0', '0 0 0');
 	setOrigin(rocket, self.origin + v_forward * 8 + '0 0 32');
 
 	rocket.effects |= EF_MUZZLEFLASH | EF_DIMLIGHT;

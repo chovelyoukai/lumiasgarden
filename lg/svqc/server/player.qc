@@ -94,4 +94,8 @@ void PlayerPostThink()
 	// check for any weapon buttons being held down
 	weaponFrame();
 
+	// handle impulse commands
+	if (self.impulse)
+		impulseCommands();
+
 }

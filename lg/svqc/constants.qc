@@ -207,3 +207,22 @@ const float ENT_DAMAGER = 2;
 const float ENT_HURT    = 3;
 const float ENT_KILL    = 4;
 const float ENT_NAME    = 5;
+
+// thirdperson view offsets
+const float TP_BACK = -64;
+const float TP_UP   = -32;
+
+// impulse defines
+const float IMP_KILL        = 254;
+const float IMP_CHANGEWEPS  = 253;
+const float IMP_THIRDPERSON = 252;
+const float IMP_SIT         = 251;
+const float IMP_INCWEP      = 10;
+const float IMP_DECWEP      = 11;
+const float IMP_LASTWEP     = 12;
+
+// maximum allowed sticky grenades
+const float MAX_GRENADES = 2;
+
+// radius damage knockback multiplier
+const float RAD_MULT = 0.3;

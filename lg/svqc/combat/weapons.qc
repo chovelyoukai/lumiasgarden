@@ -1,7 +1,6 @@
 // weapons.qc
 //
 // this file handles shooting weapons, as well as input impulses
-// TODO: move input impulses to a different file
 //
 // this file is licensed under the GPL v3
 
@@ -52,145 +51,9 @@ void attack()
 	}
 }
 
-// this function selects a new weapon on impulse commands
-void changeWeapon()
-{
-	// if we have selected the weapon we are already holding, do nothing
-	if (self.impulse == self.weapon + 1)
-		return;
-
-	self.deployTime = time + 0.6;
-	self.weaponframe = 0;
-	self.think = anim_playerRun;
-
-	if (self.impulse == 1)
-	{
-		// set all the animations to use.
-		self.idlePose = POSE_RL_IDLE;
-		self.runPose = POSE_RL_RUN;
-		self.idleAttackPose = POSE_RL_IDLE_ATT;
-		self.runAttackPose = POSE_RL_RUN_ATT;
-
-		self.weaponmodel = "progs/weapon_views/v_rocket.iqm";
-		self.weaponframe = 0;
-		self.lastWeapon = self.weapon;
-		self.weapon = IT_ROCKET_LAUNCHER;
-	}
-	else if (self.impulse == 2)
-	{
-		// can't actually switch to conc grenades or grapple gun
-		// so don't change anything and reset delay
-		
-		if (self.sec == SEC_CONC || self.sec == SEC_GRAPPLE)
-		{
-			self.deployTime = 0;
-			return;
-		}
-
-		// set all the animations to use.
-		self.idlePose = POSE_GL_IDLE;
-		self.runPose = POSE_GL_RUN;
-		self.idleAttackPose = POSE_GL_IDLE_ATT;
-		self.runAttackPose = POSE_GL_RUN_ATT;
-
-		self.weaponmodel = "progs/weapon_views/v_grenade.iqm";
-		self.weaponframe = 0;
-		self.lastWeapon = self.weapon;
-		self.weapon = IT_GRENADE_LAUNCHER;
-	}
-	else if (self.impulse == 3)
-	{
-		// set all the animations to use.
-		self.idlePose = POSE_CH_IDLE;
-		self.runPose = POSE_CH_RUN;
-		self.idleAttackPose = POSE_CH_IDLE_ATT;
-		self.runAttackPose = POSE_CH_RUN_ATT;
-
-		self.weaponmodel = "progs/weapon_views/v_chovel.iqm";
-		self.weaponframe = 0;
-		self.lastWeapon = self.weapon;
-		self.weapon = IT_CHOVEL;
-	}
-}
-
-// handle various input impulses from the client
-void impulseCommands()
-{
-	// if we're in a menu, re-route the input to the menu function
-	if (self.inMenu)
-	{
-		menuInput(self.impulse);
-		self.impulse = 0;
-		return;
-	}
-	if (self.impulse >= 1 && self.impulse <= 3)
-		changeWeapon();
-	else if (self.impulse == 10)
-	{
-		self.impulse = self.weapon;
-		if (self.sec == SEC_GRAPPLE || self.sec == SEC_CONC)
-			self.impulse--;
-		if (self.impulse < 1)
-			self.impulse = 3;
-
-		changeWeapon();
-	}
-	else if (self.impulse == 11)
-	{
-		self.impulse = self.weapon + 2;
-		if (self.sec == SEC_GRAPPLE || self.sec == SEC_CONC)
-			self.impulse++;
-		if (self.impulse > 3)
-			self.impulse = 1;
-
-		changeWeapon();
-	}
-	else if (self.impulse == 12)
-	{
-		self.impulse = self.lastWeapon + 1;
-		changeWeapon();
-	}
-
-	// TODO: change these impulses to defines
-	// TODO: add suicide cooldown
-	if (self.impulse == 254)
-		killed(self, self);
-	else if (self.impulse == 253)
-	{
-		self.switchWeps = TRUE;
-		// TODO: change from a centerprint to a client-side print
-		centerPrint(self, "You can switch weapons on respawn.\n");
-	}
-	else if (self.impulse == 252)
-		thirdpersonToggle();
-	// the sit animation
-	else if (self.impulse == 251)
-	{
-		if (self.stuck)
-			anim_sitLeave1();
-		else
-		{
-			if (self.flags & FL_ONGROUND)
-			{
-				self.velocity = '0 0 0';
-				anim_sitEnter1();
-			}
-		}
-	}
-	else if (self.impulse == 69)
-	{
-		sprint(self, "nice\n");
-	}
-
-	self.impulse = 0;
-}
-
 // this is called every frame in playerPostThink, after physics is run
 void weaponFrame()
 {
-	if (self.impulse)
-		impulseCommands();
-
 	// don't auto-fire on weappons that don't allow it
 	if (!self.stuck && self.button0 && !self.button0Reset)
 	{		
@@ -243,30 +106,5 @@ void weaponFrame()
 	if (self.button4)	
 		self.cantWallrun = TRUE;
 
-	// if we are currently spewing, handle that here
-	if (self.spewing && self.nextSpew < time)
-	{
-		if (self.overloaded == 0)
-			self.spewing = 0;
-		else
-		{
-			fireRocket();
-			self.overloaded--;
-			self.nextSpew = time + 0.24;
-		}
-	}
-
-	// if we are using the overloader, spew when anything is loaded
-	// and button0 is not being held down
-	if (self.overloaded > 0 && self.overloaded < 6 &&
-		!self.spewing && !self.button0)
-	{
-		// if some were already overloaded, then don't fire them a second
-		// time
-		if (self.overloaded > 3)
-			self.overloaded = 6 - self.overloaded;
-
-		self.spewing = 1;
-		self.nextSpew = time + 0.24;
-	}
+	checkSpew();
 }

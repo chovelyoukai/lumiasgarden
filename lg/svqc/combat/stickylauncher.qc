@@ -8,6 +8,7 @@
 void grenadeExplode()
 {
 	applyRadiusDmg(self, self.owner, 170, world);
+	self.classname = "explodingGrenade";
 
 	writeByte(MSG_BROADCAST, SVC_TEMPENTITY);
 	writeByte(MSG_BROADCAST, TE_EXPLOSION);
@@ -41,6 +42,7 @@ void grenadeTouch()
 void fireGrenade()
 {
 	local entity grenade, oldGrenade;
+	local entity oldSelf;
 	local float bestTime = time;
 
 	sound(self, CHAN_WEAPON, "weapons/fire_grenade.ogg", 0.3, ATTN_NORM);
@@ -50,8 +52,7 @@ void fireGrenade()
 	self.grenades++;
 
 	// can only have 2 grenades out at once
-	// TODO: change this to a define
-	if (self.grenades > 2)
+	if (self.grenades > MAX_GRENADES)
 	{
 		// world is entity 0, so we need to immediately go
 		// to the next ent so the loop will actually execute.
@@ -60,8 +61,8 @@ void fireGrenade()
 	
 		while(oldGrenade)
 		{
-			if (oldGrenade.classname != "grenade" ||
-				oldGrenade.owner != self)
+			if (oldGrenade.classname != "grenade"
+				|| oldGrenade.owner != self)
 			{
 				oldGrenade = nextEnt(oldGrenade);
 				continue;
@@ -78,8 +79,10 @@ void fireGrenade()
 		}
 		// grenade should now reference the earliest undetonated
 		// grenade.
-		grenade.nextthink = time;
-		grenade.think = grenadeExplode;
+		oldSelf = self;
+		self = grenade;
+		grenadeExplode();
+		self = oldSelf;
 		self.grenades--;
 	}
 
@@ -120,7 +123,7 @@ void fireGrenade()
 	grenade.exploding = FALSE;
 	
 	setModel(grenade, "progs/weapon_world/w_grenade.iqm");
-	setSize(grenade, '-4 -4 -4', '4 4 4'); //TODO: ???
+	setSize(grenade, '-4 -4 -4', '4 4 4');
 	setOrigin(grenade, self.origin);
 
 	grenade.effects |= EF_MUZZLEFLASH | EF_DIMLIGHT;

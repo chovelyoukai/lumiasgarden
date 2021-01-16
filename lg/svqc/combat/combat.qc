@@ -183,17 +183,6 @@ void applyDmg(entity target, entity inflictor, entity attacker,
 
 	target.rocketJumpFlag = TRUE;
 
-	// TODO: investigate if this is necessary
-	/*
-	oldself = self;
-	self = targ;
-
-	if (self.thinkPain);
-		self.thinkPain(attacker, take);
-
-	self = oldself;
-	*/
-
 	if (target.classname == "player")
 	{
 		spawnDamager(target, damage, inflictor.origin);
@@ -221,8 +210,7 @@ void applyRadiusDmg(entity inflictor, entity attacker, float damage,
 		}
 
 		org = head.origin + (head.mins + head.maxs) * 0.5;
-		// TODO: replace magic number 0.3 with a define
-		points = 0.3 * vlen(inflictor.origin - org);
+		points = RAD_MULT * vlen(inflictor.origin - org);
 
 		if (points < 0)
 			points = 0;

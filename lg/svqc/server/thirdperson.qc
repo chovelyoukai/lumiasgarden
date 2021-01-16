@@ -12,10 +12,9 @@ void updateCamera()
 	makeVectors(self.owner.v_angle);
 
 	// go back as far as we can without hitting anything
-	// TODO: make these constants not magic numbers
 	traceLine(self.owner.origin + self.owner.view_ofs,
 		self.owner.origin + (self.owner.view_ofs) +
-		(v_forward * -64) + (v_up * -32), TRUE, self);
+		(v_forward * TP_BACK) + (v_up * TP_UP), TRUE, self);
 
 	camOrg_x = trace_endpos_x;
 	camOrg_y = trace_endpos_y;

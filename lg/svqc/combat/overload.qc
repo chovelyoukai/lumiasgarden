@@ -30,11 +30,10 @@ void() overloadExplode =
 	self = explosion;
 	becomeExplosion();
 	self = oldself;
-};
+}
 
 // this is the function called from weapons.qc
 // the actual shooting of rockets is handled in weapons.qc
-// TODO: move the weapons.qc code into a dedicated function in here
 void fireOverload()
 {
 	// can't load while currently firing.
@@ -53,4 +52,29 @@ void fireOverload()
 	if (self.overloaded > 3 && !self.cantOverload)
 		overloadExplode();
 		
-};
+}
+
+void checkSpew()
+{
+	if (self.spewing && self.nextSpew < time)
+	{
+		if (self.overloaded == 0)
+			self.spewing = 0;
+		else
+		{
+			fireRocket();
+			self.overloaded--;
+			self.nextSpew = time + 0.24;
+		}
+	}
+
+	if (self.overloaded > 0 && self.overloaded < 6
+		&& !self.spewing && !self.button0)
+	{
+		if (self.overloaded > 3)
+			self.overloaded = 6 - self.overloaded;
+
+		self.spewing = 1;
+		self.nextSpew = time + 0.24;
+	}
+}

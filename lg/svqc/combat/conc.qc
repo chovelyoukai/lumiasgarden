@@ -8,49 +8,28 @@
 // from TF
 void radiusBounce(entity inflictor, entity attacker, float bounce, entity ignore)
 {
-	// TODO: make this way more efficient. it only deals knockback
-	// to the attacker, so findradius isn't necessary
-
 	local float points;
-	local entity head;
 	local vector org;
 
-	head = findRadius(inflictor.origin, bounce + 40);
+	if (vlen(attacker.origin - self.origin) > bounce + 40)
+		return;
 
-	while (head)
+	attacker.rocketJumpFlag = 1;
+
+	org = attacker.origin + (attacker.mins + attacker.maxs) * 0.5;
+	
+	points = 0.5 * vlen(org - inflictor.origin);
+	if (points < 0)
+		points = 0;
+	points = bounce - points;
+
+	if (points > 0)
 	{
-		if (head != ignore)
-		{
-			// only deal damage to the attacker
-			if (head == attacker)
-			{
-				if (head.stat_hurt < 1)
-					head.stat_hurt = 1;
-				else
-					head.stat_hurt = 0;
-
-				head.rocketJumpFlag = 1;
-
-				org = head.origin + (head.mins + head.maxs) * 0.5;
-				
-				points = 0.5 * vlen(org - inflictor.origin);
-				if (points < 0)
-					points = 0;
-				points = bounce - points;
-
-				if (points > 0)
-				{
-					head.velocity = org - inflictor.origin;
-					head.velocity *= (points / 20);
-				}
-
-				head.stat_damage = (bounce - points) / 1.3;
-
-				return;
-			}
-		}
-		head = head.chain;
+		attacker.velocity = org - inflictor.origin;
+		attacker.velocity *= (points / 20);
 	}
+
+	spawnDamager(attacker, vlen(org - inflictor.origin) / 2, self.origin);
 }
 
 // explode function for concs that have actually been thrown

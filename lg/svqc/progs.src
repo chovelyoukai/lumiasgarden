@@ -27,6 +27,7 @@ objects/funcs.qc
 server/world.qc
 server/server.qc
 server/menu.qc
+server/impulse.qc
 server/wallrun.qc
 server/look.qc
 server/player.qc
