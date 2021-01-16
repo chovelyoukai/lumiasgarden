@@ -123,6 +123,7 @@ void PutClientInServer()
 	self.classname = "player";
 	self.health = self.max_health = 100;
 	self.flags = FL_CLIENT;
+	self.lastWeapon = IT_CHOVEL;
 	self.weapon = IT_ROCKET_LAUNCHER;
 	self.weaponmodel = "progs/weapon_views/v_rocket.iqm";
 	self.thinkDie = playerDie;

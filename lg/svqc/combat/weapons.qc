@@ -73,6 +73,7 @@ void changeWeapon()
 
 		self.weaponmodel = "progs/weapon_views/v_rocket.iqm";
 		self.weaponframe = 0;
+		self.lastWeapon = self.weapon;
 		self.weapon = IT_ROCKET_LAUNCHER;
 	}
 	else if (self.impulse == 2)
@@ -94,6 +95,7 @@ void changeWeapon()
 
 		self.weaponmodel = "progs/weapon_views/v_grenade.iqm";
 		self.weaponframe = 0;
+		self.lastWeapon = self.weapon;
 		self.weapon = IT_GRENADE_LAUNCHER;
 	}
 	else if (self.impulse == 3)
@@ -106,6 +108,7 @@ void changeWeapon()
 
 		self.weaponmodel = "progs/weapon_views/v_chovel.iqm";
 		self.weaponframe = 0;
+		self.lastWeapon = self.weapon;
 		self.weapon = IT_CHOVEL;
 	}
 }
@@ -122,6 +125,31 @@ void impulseCommands()
 	}
 	if (self.impulse >= 1 && self.impulse <= 3)
 		changeWeapon();
+	else if (self.impulse == 10)
+	{
+		self.impulse = self.weapon;
+		if (self.sec == SEC_GRAPPLE || self.sec == SEC_CONC)
+			self.impulse--;
+		if (self.impulse < 1)
+			self.impulse = 3;
+
+		changeWeapon();
+	}
+	else if (self.impulse == 11)
+	{
+		self.impulse = self.weapon + 2;
+		if (self.sec == SEC_GRAPPLE || self.sec == SEC_CONC)
+			self.impulse++;
+		if (self.impulse > 3)
+			self.impulse = 1;
+
+		changeWeapon();
+	}
+	else if (self.impulse == 12)
+	{
+		self.impulse = self.lastWeapon + 1;
+		changeWeapon();
+	}
 
 	// TODO: change these impulses to defines
 	// TODO: add suicide cooldown

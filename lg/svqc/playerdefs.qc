@@ -90,3 +90,6 @@
 
 // what the player is looking at
 .string lookName;
+
+// the last weapon the player had deployed
+.float lastWeapon;
