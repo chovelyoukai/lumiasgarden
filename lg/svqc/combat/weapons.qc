@@ -66,23 +66,24 @@ void weaponFrame()
 		if (self.weapon == IT_ROCKET_LAUNCHER &&
 			time < self.attackFinishedRocket)
 		{
-			return;
+            goto skipAttack;
 		}
 		else if (self.weapon == IT_GRENADE_LAUNCHER &&
 			time < self.attackFinishedGrenade)
 		{
-			return;
+            goto skipAttack;
 		}
 		else if (self.weapon == IT_CHOVEL && 
 			time < self.attackFinished)
 		{
-			return;
+            goto skipAttack;
 		}
 		
 		if (time < self.deployTime)
-			return;
+            goto skipAttack;
 
 		attack();
+        skipAttack:
 	}
 	else if (!self.button0)
 		self.button0Reset = FALSE;
@@ -108,7 +109,7 @@ void weaponFrame()
 	else if (!self.button3)
 		self.button3Reset = FALSE;
 
-	if (self.button4)	
+	if (!self.button4)	
 		self.cantWallrun = TRUE;
 
 	checkSpew();

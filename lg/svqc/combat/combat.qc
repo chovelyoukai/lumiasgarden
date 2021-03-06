@@ -131,10 +131,15 @@ void addVelocity(entity target, entity inflictor, entity attacker,
 	local float mult;
 	mult = 0;
 
+    if (globalMode == MODE_TRICKJUMP && target != attacker)
+    {
+        return;
+    }
+
 	// TODO: re-add props
 	if ((inflictor != world) && target.movetype == MOVETYPE_WALK)
 	{
-		dir = target.origin -
+		dir = (target.origin + (target.mins + target.maxs) * 0.5) -
 			(inflictor.absmin + inflictor.absmax) * 0.5;
 
 		dir = normalize(dir);
@@ -142,9 +147,12 @@ void addVelocity(entity target, entity inflictor, entity attacker,
 		// if we're launching ourselves while midair, give
 		// an extra boost
 		if (!(self.flags & FL_ONGROUND) && target == attacker)
-			mult = 14.5;
+			mult = 15.2;
 		else
-			mult = 7;
+			mult = 7.455;
+
+        if (inflictor.classname == "grenade")
+            mult = 10.063;
 
 		// grenades cause no knockback to enemies
 		if (inflictor.classname == "grenade" && target != attacker)
@@ -155,7 +163,7 @@ void addVelocity(entity target, entity inflictor, entity attacker,
 		if (target.classname == "ball")
 			mult = 14;
 		
-		target.velocity = target.velocity + dir * damage * mult;
+		target.velocity = target.velocity + (dir * damage * mult);
 	}
 }
 
@@ -193,13 +201,13 @@ void applyDmg(entity target, entity inflictor, entity attacker,
 
 // do damage to anything in a particular range
 void applyRadiusDmg(entity inflictor, entity attacker, float damage,
-	entity ignore)
+	entity ignore, float radius)
 {
-	local float points;
+	local float distance;
 	local entity head;
-	local vector org;
+	local vector center, org, closest;
 
-	head = findRadius(inflictor.origin, fabs(damage) + 70);
+	head = findRadius(inflictor.origin, radius);
 
 	while (head)
 	{
@@ -209,32 +217,35 @@ void applyRadiusDmg(entity inflictor, entity attacker, float damage,
 			continue;
 		}
 
-		org = head.origin + (head.mins + head.maxs) * 0.5;
-		points = RAD_MULT * vlen(inflictor.origin - org);
+        if (!canDamage(head, inflictor))
+        {
+            head = head.chain;
+            continue;
+        }
 
-		if (points < 0)
-			points = 0;
+        center = head.origin + (head.mins + head.maxs) * 0.5;
+        org = head.origin;
 
-		points = fabs(damage) - points;
+        if (vlen(head.origin - inflictor.origin) <
+            vlen(center - inflictor.origin))
+        {
+            closest = head.origin;
+        }
+        else
+        {
+            closest = center;
+        }
 
-		if (head == attacker)
-			points = points * 0.5;
+        distance = vlen(closest - inflictor.origin);
 
-		if ((points > 0) && canDamage(head, inflictor))
-		{
-			// extra knockback from grenades
-			if (head.classname == "player" && 
-				inflictor.classname == "grenade")
-			{
-				points = points * 1.5;
-			}
+        damage = (damage * (0.5 - 1) * distance / 121) + damage;
 
-			// scale properly for implosion cannon
-			if (damage < 0)
-				points *= -1;
+        if (head == attacker && !(head.flags & FL_ONGROUND))
+            damage *= 0.6;
+        else
+            damage *= 0.5;
 
-			applyDmg(head, inflictor, attacker, points);
-		}
+        applyDmg(head, inflictor, attacker, damage);
 
 		head = head.chain;
 	}

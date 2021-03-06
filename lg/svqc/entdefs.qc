@@ -14,3 +14,7 @@
 // extra model animations
 .float basebone;
 .float baseframe;
+
+// info_game fields
+.float mode;
+.float winPoints;

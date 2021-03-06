@@ -95,7 +95,7 @@ void fireGrapple()
 
 	setModel(hook, "progs/weapon_world/w_spike.iqm");
 	setSize(hook, '-4 -4 -4', '4 4 4');
-	setOrigin(hook, self.origin);
+	setOrigin(hook, self.origin + '0 0 64');
 
 	hook.effects |= EF_MUZZLEFLASH | EF_DIMLIGHT;
 }

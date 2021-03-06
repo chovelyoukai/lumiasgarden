@@ -138,8 +138,8 @@ void throwConc()
 	conc.touch = concTouch;
 	
 	setModel (conc, "progs/weapon_world/w_conc.iqm");
-	setSize (conc, '-4 -4 -4', '4 4 4');		
-	setOrigin (conc, self.owner.origin);
+	setSize (conc, '-4 -4 0', '4 4 4');		
+	setOrigin (conc, self.owner.origin + '0 0 60');
 
 	conc.effects |= EF_DIMLIGHT;
 

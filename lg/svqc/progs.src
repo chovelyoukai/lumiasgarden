@@ -4,6 +4,7 @@ constants.qc
 playerdefs.qc
 mapdefs.qc
 entdefs.qc
+globaldefs.qc
 subs.qc
 math.qc
 
@@ -22,6 +23,9 @@ combat/conc.qc
 combat/weapons.qc
 
 objects/triggers.qc
+objects/trigger_teleport.qc
+objects/trigger_reversegravity.qc
+objects/info_game.qc
 objects/funcs.qc
 
 server/world.qc

@@ -287,6 +287,8 @@ string precache_file2(string s) = #77; // registered version only
 void setSpawnParms(entity e) = #78; // set parm1... to the
                                     // values at level start
                                     // for coop respawn
+void traceBox(vector start, vector mins, vector maxs, vector end,
+              float collision, entity ignore) = #90;
 void clientStat(float num, float type, ...) = #232;
 void runStandardPlayerPhysics(entity ent) = #347;
 void writeFloat(float to, float f) = #280;

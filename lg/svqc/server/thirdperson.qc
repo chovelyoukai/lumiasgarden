@@ -14,11 +14,11 @@ void updateCamera()
 	// go back as far as we can without hitting anything
 	traceLine(self.owner.origin + self.owner.view_ofs,
 		self.owner.origin + (self.owner.view_ofs) +
-		(v_forward * TP_BACK) + (v_up * TP_UP), TRUE, self);
+		(v_forward * TP_BACK), TRUE, self.owner);
 
 	camOrg_x = trace_endpos_x;
 	camOrg_y = trace_endpos_y;
-	camOrg_z = trace_endpos_z;
+	camOrg_z = trace_endpos_z - 64;
 	camOrg += trace_plane_normal;
 
 	setOrigin(self, camOrg);
@@ -37,6 +37,7 @@ void setViewPoint(entity spot)
 // this function spawns a camera entity and sets it to our view point
 void thirdpersonOn()
 {
+    local entity oldSelf;
 	local entity cam;
 
 	cam = spawn();
@@ -48,7 +49,11 @@ void thirdpersonOn()
 	cam.nextthink = time + 0.015;
 	setSize(cam, '0 0 0', '0 0 0');
 	self.camera = cam;
+    
+    oldSelf = self;
+    self = cam;
 	updateCamera();
+    self = oldSelf;
 	setViewPoint(cam);
 	stuffCmd(self, "r_drawviewmodel 0\n");
 }
@@ -78,6 +83,7 @@ void toggleStuck()
 {
 	if (!self.stuck)
 	{
+        self.angles = '0 0 0';
 		self.movetype = MOVETYPE_NONE;
 		self.stuck = TRUE;
 	}

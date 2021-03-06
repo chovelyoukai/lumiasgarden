@@ -131,8 +131,8 @@ const float SEC_CONC       = 3;
 
 // player size
 const vector VEC_ORIGIN   = '0 0 0';
-const vector VEC_HULL_MIN = '-24 -24 -32';
-const vector VEC_HULL_MAX = '24 24 48';
+const vector VEC_HULL_MIN = '-24 -24 0';
+const vector VEC_HULL_MAX = '24 24 80';
 
 // speed that the player is capped to when hitting the ground
 const float BHOP_MAXSPEED = 800;
@@ -209,8 +209,8 @@ const float ENT_KILL    = 4;
 const float ENT_NAME    = 5;
 
 // thirdperson view offsets
-const float TP_BACK = -64;
-const float TP_UP   = -32;
+const float TP_BACK = -16;
+const float TP_UP   = 0;
 
 // impulse defines
 const float IMP_KILL        = 254;
@@ -226,3 +226,9 @@ const float MAX_GRENADES = 2;
 
 // radius damage knockback multiplier
 const float RAD_MULT = 0.3;
+
+const float BLAST_RADIUS = 146;
+
+const float MODE_TRICKJUMP = 0;
+const float MODE_FFADM = 1;
+const float MODE_BALL = 2;

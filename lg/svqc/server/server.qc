@@ -143,7 +143,7 @@ void PutClientInServer()
 	setSize(self, VEC_HULL_MIN, VEC_HULL_MAX);
 	// this is the offset **relative** to the player's origin that
 	// the camera view should be placed at.
-	self.view_ofs = '0 0 32';
+	self.view_ofs = '0 0 68';
 	self.velocity = '0 0 0';
 
 	self.angles = spawnLocation.angles;

@@ -93,3 +93,8 @@
 
 // the last weapon the player had deployed
 .float lastWeapon;
+
+// whether or not the player is in reverse gravity
+.float reversed;
+.float wasFlipped;
+.float flipTime;

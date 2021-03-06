@@ -11,11 +11,10 @@
 // certain kinds of movement in it's volume
 void func_restrictmoveTouch()
 {
+
 	if (self.restrict_flags & RESTRICT_ROCKET &&
-		other.classname == "missile")
+		other.classname == "rocket")
 	{
-		bprint(ftos(self.restrict_flags));
-		bprint("\n");
 		remove(other);
 	}
 	else if (self.restrict_flags & RESTRICT_GRENADE &&

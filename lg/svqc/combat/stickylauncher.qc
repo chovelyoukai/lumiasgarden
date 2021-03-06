@@ -7,7 +7,7 @@
 // called when grenades explode
 void grenadeExplode()
 {
-	applyRadiusDmg(self, self.owner, 170, world);
+	applyRadiusDmg(self, self.owner, 150, world, BLAST_RADIUS);
 	self.classname = "explodingGrenade";
 
 	writeByte(MSG_BROADCAST, SVC_TEMPENTITY);
@@ -19,11 +19,20 @@ void grenadeExplode()
 	becomeExplosion();
 }
 
+// add brightness to grenade when it arms
+void grenadeArmEffect()
+{
+    self.effects |= EF_DIMLIGHT;
+}
+
 // the grenade touch function that sticks it to things
 void grenadeTouch()
 {
 	if (other == self.owner)
 		return;
+
+    if (other.classname == "grenade")
+        return;
 	
 	if (other == world)
 	{
@@ -101,7 +110,7 @@ void fireGrenade()
 
 	if (self.v_angle_x)
 	{
-		grenade.velocity = (v_forward * 777) + (v_up * 188);
+		grenade.velocity = (v_forward * 900) + (v_up * 200);
 	}
 	else
 	{
@@ -116,17 +125,17 @@ void fireGrenade()
 
 	grenade.touch = grenadeTouch;
 
-	grenade.nextthink = time + 5;
-	grenade.think = SUB_null;
+	grenade.nextthink = time + 0.8;
+	grenade.think = grenadeArmEffect;
 
-	grenade.armTime = time + 0.5;
+	grenade.armTime = time + 0.8;
 	grenade.exploding = FALSE;
 	
 	setModel(grenade, "progs/weapon_world/w_grenade.iqm");
 	setSize(grenade, '-4 -4 -4', '4 4 4');
-	setOrigin(grenade, self.origin);
+	setOrigin(grenade, self.origin + '0 0 60');
 
-	grenade.effects |= EF_MUZZLEFLASH | EF_DIMLIGHT;
+	grenade.effects |= EF_MUZZLEFLASH;
 }
 
 // this is also called from weapons.qc when the player uses +attack2

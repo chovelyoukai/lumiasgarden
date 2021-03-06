@@ -9,7 +9,6 @@
 void rocketTouch()
 {
 	local float damage;
-	local float splashDamage;
 
 	// don't explode on the one who fired the rocket
 	if (other == self.owner)
@@ -24,20 +23,21 @@ void rocketTouch()
 		return;
 	}
 
-	damage = 100;
+	damage = 90;
 
 	// invert damage for the implosion cannon
 	if (self.owner.prim == PRIM_IMPLOSION)
 		damage *= -1;
 
-	splashDamage = damage * 1.2;
-
 	if (other.health)
 		applyDmg(other, self, self.owner, damage);
 
+    // move back one unit for rocket jump calculations
+	self.origin = self.origin - normalize(self.velocity);
+
 	// don't do radius damage to other, since it was already
 	// done in the impact
-	applyRadiusDmg(self, self.owner, splashDamage, other);
+	applyRadiusDmg(self, self.owner, damage, other, BLAST_RADIUS);
 	
 	// move back eight units so it looks right
 	self.origin = self.origin - 8 * normalize(self.velocity);
@@ -56,6 +56,7 @@ void rocketTouch()
 void fireRocket()
 {
 	local entity rocket;
+    local vector newOrigin = '0 0 54';
 
 	sound(self, CHAN_AUTO, "weapons/fire_rocket.ogg", 0.3, ATTN_NORM);
 
@@ -81,7 +82,9 @@ void fireRocket()
 
 	setModel(rocket, "progs/weapon_world/w_rocket.iqm");
 	setSize(rocket, '0 0 0', '0 0 0');
-	setOrigin(rocket, self.origin + v_forward * 8 + '0 0 32');
+    if (self.reversed > time)
+        newOrigin *= -1;
+	setOrigin(rocket, self.origin + v_forward * 16 + newOrigin);
 
 	rocket.effects |= EF_MUZZLEFLASH | EF_DIMLIGHT;
 }
