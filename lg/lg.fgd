@@ -29,8 +29,8 @@
 ]
 
 @BaseClass
-	size(-24 -24 -32, 24 24 48)
-	color(0 255 0)
+	size(-24 -24 0, 24 24 80)
+	color(0 64 0)
 	model({"path" : ":progs/player.iqm"}) = PlayerClass []
 
 @BaseClass base(Target, Targetname) = Item
@@ -86,7 +86,10 @@
 	: "Player spawn" []
 
 @PointClass base(PlayerClass) = info_teleport_destination
-	: "Teleporter destination" []
+	: "Teleporter destination"
+[
+    targetname(string) : "The name that other entities refer to this by" : ""
+]
 
 @PointClass color(200 150 150) = info_null
 	: "Generic target" []
@@ -102,6 +105,18 @@
 @PointClass size(-8 -8 -8, 8 8 8) base(Light, Target, Targetname)
 	= light : "Point light source" []
 
+@PointClass size(-8 -8 -8, 8 8 8) base(Targetname) color (64 64 255) =
+    info_game : "Game meta-information"
+[
+    mode(choices) : "Game mode for this map" : 0 = 
+    [
+        0 : "Trickjump / Race"
+        1 : "Free-for-all Deathmatch"
+        2 : "Ball"
+    ]
+    winPoints(integer) : "Number of points needed to win the game" : 5
+]
+
 // solid entities
 
 @SolidClass = func_illusionary : "Static nonsolid model" []
@@ -116,6 +131,7 @@
 @SolidClass base(Trigger) = trigger_once : "One-time trigger" []
 @SolidClass base(Trigger) = trigger_multiple : "Many-time trigger" []
 @SolidClass base(Trigger) = trigger_teleport : "Teleporter" []
+@SolidClass base(Trigger) = trigger_reversegravity : "Reverse Gravity" []
 
 // function volumes
 
