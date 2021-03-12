@@ -18,3 +18,8 @@
 // info_game fields
 .float mode;
 .float winPoints;
+
+.string modelPath;
+
+.vector maxSize;
+.vector minSize;

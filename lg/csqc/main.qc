@@ -7,11 +7,11 @@ void CSQC_Init(float apiver, string enginename, float enginever)
 	precache_sound("ui/hit.wav");
 	precache_sound("ui/kill.wav");
 	precache_sound("music/sadness.wav");
+    precache_model("progs/weapon_world/w_spike.iqm");
 	precache_file("gfx/radar.lmp");
 	
 	playing = TRUE;
 
-//	sound(self, CHAN_VOICE, "ui/hit.wav", 1, ATTN_NONE); 
 	return;
 }
 
@@ -28,16 +28,25 @@ float CSQC_ConsoleCommand(string cmd)
 
 void CSQC_UpdateView(float width, float height, float menushown)
 {
-	clearscene();
+    local float shouldDrawRadar = cvar("cl_drawradar");
+
+    playerSens = cvar("cl_sense");
+	
+    clearscene();
 
 	setviewprop(VF_DRAWENGINESBAR, 0);
 	setviewprop(VF_DRAWCROSSHAIR, 1);
 
 	addentities((intermission ? 0 : MASK_VIEWMODEL) | MASK_ENGINE);
 
+    drawGrapples();
+    
+    predict();
+
 	renderscene();
 
-	drawRadar(width, height);
+    if (shouldDrawRadar != 0)
+	    drawRadar(width, height);
 
 	drawDamageIndicator(width, height);
 

@@ -9,5 +9,7 @@ sounds.qc
 recieve.qc
 radar.qc
 damage.qc
+grapple.qc
+predict.qc
 main.qc
 

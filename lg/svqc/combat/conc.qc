@@ -90,7 +90,7 @@ void throwConc()
 
 	// owner's throwCount is time until they can start priming
 	// another grenade
-	self.owner.throwCount = time + 0.3;
+	self.owner.throwCount = time + 0.1;
 	// our throwCount is time until we actually throw the grenade
 	if (self.throwCount == 0)
 		self.throwCount = time + 0.2;
@@ -182,7 +182,7 @@ void primeConc()
 	timer.owner = self;
 
 	timer.nextthink = time + 0.02;
-	timer.countdown = time + 4;
+	timer.countdown = time + 3.81;
 	timer.think = throwConc;
 	
 	setOrigin(timer, self.origin);

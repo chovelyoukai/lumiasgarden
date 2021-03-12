@@ -117,6 +117,22 @@
     winPoints(integer) : "Number of points needed to win the game" : 5
 ]
 
+@PointClass size(-8 -8 0, 8 8 16) color (75 75 75) =
+    prop : "Static prop"
+[
+    modelPath(string) : "The model this prop uses"
+    maxSize(vector) : "Maximum bounding box size"
+    minSize(vector) : "Minimum bounding box size"
+    solid(choices) : "Type of solid for this prop" : 0 = 
+    [
+        0 : "Not solid"
+        1 : "Trigger collision"
+        2 : "Bounding box collision"
+        3 : "Slidebox collision"
+        4 : "BSP collision"
+    ]
+]
+
 // solid entities
 
 @SolidClass = func_illusionary : "Static nonsolid model" []

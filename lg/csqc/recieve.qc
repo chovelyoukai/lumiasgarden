@@ -63,10 +63,28 @@ void CSQC_Ent_Update(float isnew)
 			sound(self, CHAN_AUTO, "ui/kill.wav", 1.0, ATTN_NONE);
 		}
 		break;
+    case ENT_GRAPPLE:
+        flags = readbyte();
+        if (isnew)
+        {
+            self.classname = "hook";
+            setmodel(self, "progs/weapon_world/w_spike.iqm");
+            self.drawmask = MASK_VIEWMODEL;
+        }
+        if (flags & 1)
+        {
+            self.origin.x = readcoord();
+            self.origin.y = readcoord();
+            self.origin.z = readcoord();
+            self.ownerPos.x = readcoord();
+            self.ownerPos.y = readcoord();
+            self.ownerPos.z = readcoord();
+        }
+        break;
 	default:
 		print(ftos(entType));
 		print("\n");
-		//error("Unknown entity type recieved.");
+		error("Unknown entity type recieved.");
 	}
 }
 

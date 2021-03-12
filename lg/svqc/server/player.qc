@@ -8,31 +8,33 @@ float reversedGround();
 // required engine function for player prediction
 void SV_RunClientCommand()
 {
-	runStandardPlayerPhysics(self);
+    calculateFrameTime();
+    runStandardPlayerPhysics(self);
+    
+    if (self.v_angle.x - self.prevPitch > 100)
+    {
+        self.v_angle.x = self.prevPitch;
+        self.prevPitch = 0;
+    }
 
     if (self.reversed > time)
     {
-        if (reversedGround() == TRUE)
+        if (self.reverseGround == TRUE)
         {
-            makeVectors(self.v_angle);
-            self.velocity = '0 0 0';
-            if (input_movevalues.x > 0)
-            {
-                self.velocity += 320 * v_forward;
-            }
-            if (input_movevalues.x < 0)
-            {
-                self.velocity -= 320 * v_forward;
-            }
-            if (input_movevalues.y > 0)
-            {
-                self.velocity += 320 * v_right;
-            }
-            if (input_movevalues.y < 0)
-            {
-                self.velocity -= 320 * v_right;
-            }
+            self.velocity = reversedFriction(self.velocity);
+            self.velocity = reversedWalk();
         }
+        else
+        {
+            self.velocity += '0 0 27';
+        }
+        
+        self.v_angle.z = 180;
+    }
+
+    if (self.reversed == 0)
+    {
+        self.v_angle.z = 360;
     }
 }
 
@@ -52,21 +54,6 @@ void playerDie()
 	respawn();
 }
 
-// check if we are standing while reverse gravitied
-float reversedGround()
-{
-    if (self.reversed < time)
-        return FALSE;
-
-    traceBox(self.origin + '0 0 -1', -1 * VEC_HULL_MAX,
-             -1 * VEC_HULL_MIN, self.origin + '0 0 0.1', 1, self);
-
-    if (trace_fraction < 1)
-        return TRUE;
-
-    return FALSE;
-}
-
 // this is how we jump
 void playerJump()
 {
@@ -84,7 +71,7 @@ void playerJump()
 	}
 
 	// if we're in midair, don't jump
-	if (!(self.flags & FL_ONGROUND) && !reversedGround())
+	if (!(self.flags & FL_ONGROUND) && !self.reverseGround)
 	{
 		return;
 	}
@@ -102,7 +89,11 @@ void playerJump()
 		self.velocity = BHOP_MAXSPEED * normalize(self.velocity);
 
     if (self.reversed > time)
+    {
+        self.reverseGround = FALSE;
+        self.groundCheck = time + 0.1;
         jumpVel *= -1;
+    }
 
 	self.velocity_z = self.velocity_z + jumpVel;
 }
@@ -113,9 +104,20 @@ void PlayerPreThink()
 	// check to see if we are running on a wall
 	wallrun();
 
+    if (self.reversed > time && self.groundCheck < time)
+    {
+        self.reverseGround = reversedGround();
+    }
+    else
+    {
+        self.reverseGround = FALSE;
+    }
+
 	// do grappling hook stuff
 	if (self.grappled)
 		grapplePull();
+    else if (self.grapple != world)
+        self.grapple.SendFlags |= 1;
 
 	// see if we are looking at a player and set our lookName to that
 	playerLook();
@@ -132,13 +134,13 @@ void PlayerPreThink()
 			self.rocketJumpFlag = FALSE;
 		self.flags = self.flags | FL_JUMPRELEASED;
 	}
+
 }
 
+void unreverse();
 // this is called every frame after physics are run
 void PlayerPostThink()
 {
-    float newSensitivity;
-
 	// check for any weapon buttons being held down
 	weaponFrame();
 
@@ -146,29 +148,32 @@ void PlayerPostThink()
 	if (self.impulse)
 		impulseCommands();
 
+    if (self.reverseGround)
+    {
+        self.origin = stickToGround();
+        self.velocity.z = 0;
+    }
+
     // if the player has left a reversegravity trigger, then reset
     // angles
     if (self.reversed != 0 && self.reversed < time)
     {
-        bprint("undoing flip\n");
-        bprint(ftos(self.reversed));
-        bprint("\n");
-        bprint(ftos(time));
-        bprint("\n");
-
-        self.origin -= '0 0 80';
-        self.view_ofs = '0 0 64';
-        self.v_angle.z = 0;
-        newSensitivity = -1 * cvar("sensitivity");
-        if (newSensitivity > 0)
-        {
-            stuffCmd(self, "sensitivity ");
-            stuffCmd(self, ftos(newSensitivity));
-            stuffCmd(self, "\n");
-        }
-        setSize(self, VEC_HULL_MIN, VEC_HULL_MAX);
-
-        self.flipTime = time + 0.3;
-        self.reversed = 0;
+        unreverse();
     }
+}
+
+void unreverse()
+{
+    self.origin -= '0 0 80';
+    self.view_ofs = '0 0 64';
+    self.v_angle.z = 0;
+
+    self.prevPitch = self.v_angle.x;
+
+    setSize(self, VEC_HULL_MIN, VEC_HULL_MAX);
+    setModel(self, "progs/lumia.iqm");
+
+    self.flipTime = time + 0.3;
+    self.reversed = 0;
+
 }

@@ -158,17 +158,19 @@ const float EV_INTEGER  = 8;
 const float EV_VARIANT  = 9;
 
 // stats that we communicate to the client
-float STAT_LG_HURT      = 32;
-float STAT_LG_DAMAGE    = 33;
-float STAT_LG_HIT       = 34;
-float STAT_LG_KILL      = 35;
-float STAT_LG_PX        = 36;
-float STAT_LG_PY        = 37;
-float STAT_LG_PZ        = 38;
-float STAT_LG_PP        = 39;
-float STAT_LG_IN_MENU   = 40;
-float STAT_LG_OPEN_MENU = 41;
-float STAT_LG_LOOK_NAME = 42;
+const float STAT_LG_HURT      = 32;
+const float STAT_LG_DAMAGE    = 33;
+const float STAT_LG_HIT       = 34;
+const float STAT_LG_KILL      = 35;
+const float STAT_LG_PX        = 36;
+const float STAT_LG_PY        = 37;
+const float STAT_LG_PZ        = 38;
+const float STAT_LG_PP        = 39;
+const float STAT_LG_IN_MENU   = 40;
+const float STAT_LG_OPEN_MENU = 41;
+const float STAT_LG_LOOK_NAME = 42;
+const float STAT_LG_REVERSED  = 43;
+const float STAT_LG_REVGND    = 44;
 
 // flags for the func_restrictmove trigger
 const float RESTRICT_ROCKET  = 1; 
@@ -207,6 +209,7 @@ const float ENT_DAMAGER = 2;
 const float ENT_HURT    = 3;
 const float ENT_KILL    = 4;
 const float ENT_NAME    = 5;
+const float ENT_GRAPPLE = 6;
 
 // thirdperson view offsets
 const float TP_BACK = -16;

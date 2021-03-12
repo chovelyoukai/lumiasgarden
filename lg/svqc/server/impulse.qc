@@ -1,3 +1,5 @@
+void unreverse();
+
 // this function selects a new weapon on impulse commands
 void changeWeapon()
 {
@@ -99,6 +101,7 @@ void impulseCommands()
 
 	if (self.impulse == IMP_KILL && self.suicideFinished < time)
 	{
+        unreverse();
 		self.suicideFinished = time + 3;
 		killed(self, self);
 	}
@@ -126,7 +129,19 @@ void impulseCommands()
 	}
 	else if (self.impulse == 69)
 	{
+        bprint(vtos(self.v_angle));
+        bprint("\n");
+        /*
+        makeVectors(self.v_angle);
+        traceLine(self.origin + self.view_ofs, self.origin + self.view_ofs + 10000 * v_forward, 1, self);
+        local entity nudel = spawn();
+        setOrigin(nudel, trace_endpos);
+        setModel(nudel, "progs/lumia.iqm");
+        nudel.basebone = 10;
+        nudel.baseframe = 4;
+        nudel.frame = 1;
 		sprint(self, "nice\n");
+        */
 	}
 
 	self.impulse = 0;

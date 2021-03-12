@@ -133,8 +133,15 @@ void fireGrenade()
 	
 	setModel(grenade, "progs/weapon_world/w_grenade.iqm");
 	setSize(grenade, '-4 -4 -4', '4 4 4');
-	setOrigin(grenade, self.origin + '0 0 60');
-
+    if (self.reversed > time)
+    {
+        setOrigin(grenade, self.origin - '0 0 54');
+        grenade.velocity -= v_up * 200;
+    }
+    else
+    {
+	    setOrigin(grenade, self.origin + '0 0 54');
+    }
 	grenade.effects |= EF_MUZZLEFLASH;
 }
 

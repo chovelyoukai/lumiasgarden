@@ -24,6 +24,8 @@ void precacheModels()
 	precache_model("progs/weapon_views/v_grenade.iqm");
 	precache_model("progs/weapon_views/v_rocket.iqm");
 	precache_model("progs/player.iqm");
+	precache_model("progs/lumia.iqm");
+	precache_model("progs/lumia_reverse.iqm");
 
 }
 
@@ -107,6 +109,8 @@ void worldspawn()
 	clientStat(STAT_LG_IN_MENU, EV_FLOAT, inMenu);
 	clientStat(STAT_LG_OPEN_MENU, EV_FLOAT, openMenu);
 	clientStat(STAT_LG_LOOK_NAME, EV_STRING, lookName);
+	clientStat(STAT_LG_REVERSED, EV_FLOAT, reversed);
+	clientStat(STAT_LG_REVGND, EV_FLOAT, reverseGround);
 	//clientStat(STAT_LG_TELE_TIME, EV_FLOAT, stat_tele_time);
 }
 

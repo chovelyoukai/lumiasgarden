@@ -139,7 +139,7 @@ void PutClientInServer()
 	self.grappled = FALSE;
 	self.grapple = world;
 
-	setModel(self, "progs/player.iqm");
+	setModel(self, "progs/lumia.iqm");
 	setSize(self, VEC_HULL_MIN, VEC_HULL_MAX);
 	// this is the offset **relative** to the player's origin that
 	// the camera view should be placed at.

@@ -12,14 +12,31 @@ void updateCamera()
 	makeVectors(self.owner.v_angle);
 
 	// go back as far as we can without hitting anything
-	traceLine(self.owner.origin + self.owner.view_ofs,
-		self.owner.origin + (self.owner.view_ofs) +
-		(v_forward * TP_BACK), TRUE, self.owner);
+    if (self.reversed > time)
+    {
+	    traceLine(self.owner.origin + self.owner.view_ofs,
+	    	self.owner.origin + (self.owner.view_ofs) -
+	    	(v_forward * TP_BACK * 300), TRUE, self.owner);
+    }
+    else
+    {
+	    traceLine(self.owner.origin + self.owner.view_ofs,
+	    	self.owner.origin + (self.owner.view_ofs) +
+	    	(v_forward * TP_BACK), TRUE, self.owner);
+    }
 
 	camOrg_x = trace_endpos_x;
 	camOrg_y = trace_endpos_y;
-	camOrg_z = trace_endpos_z - 64;
-	camOrg += trace_plane_normal;
+    if (self.owner.reversed > time)
+    {
+	    camOrg_z = trace_endpos_z + 64;
+        camOrg -= trace_plane_normal;
+    }
+    else
+    {
+	    camOrg_z = trace_endpos_z - 64;
+        camOrg += trace_plane_normal;
+	}
 
 	setOrigin(self, camOrg);
 

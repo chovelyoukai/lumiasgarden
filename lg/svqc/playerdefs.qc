@@ -98,3 +98,6 @@
 .float reversed;
 .float wasFlipped;
 .float flipTime;
+.float reverseGround;
+.float prevPitch;
+.float groundCheck;

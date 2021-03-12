@@ -140,3 +140,22 @@ void spawnKill(entity target)
 	d.SendFlags |= 1;
 	setOrigin(d, '0 0 0');
 }
+
+float sendGrapple(entity to, float sendFlags)
+{
+	local float id = ENT_GRAPPLE;
+
+	writeByte(MSG_ENTITY, id);
+	writeByte(MSG_ENTITY, sendFlags);
+	if (sendFlags & 1)
+	{
+		writeCoord(MSG_ENTITY, self.origin.x);
+		writeCoord(MSG_ENTITY, self.origin.y);
+		writeCoord(MSG_ENTITY, self.origin.z);
+        writeCoord(MSG_ENTITY, self.owner.origin.x);
+        writeCoord(MSG_ENTITY, self.owner.origin.y);
+        writeCoord(MSG_ENTITY, self.owner.origin.z);
+	}
+
+	return TRUE;
+}

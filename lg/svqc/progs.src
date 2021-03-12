@@ -27,6 +27,7 @@ objects/trigger_teleport.qc
 objects/trigger_reversegravity.qc
 objects/info_game.qc
 objects/funcs.qc
+objects/prop.qc
 
 server/world.qc
 server/server.qc
@@ -34,5 +35,6 @@ server/menu.qc
 server/impulse.qc
 server/wallrun.qc
 server/look.qc
+server/physics.qc
 server/player.qc
 dummy.qc

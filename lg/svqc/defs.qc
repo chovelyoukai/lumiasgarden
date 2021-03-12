@@ -244,7 +244,8 @@ float roundInt(float v) = #36; // round to nearest int
 float floor(float v) = #37; // largest integer <= v
 float ceil(float v) = #38; // smallest integer >= v
 // #39 was removed
-float checkBottom(entity e) = #40; // true if self is on ground
+float sqrt(float num) = #40;
+//float checkBottom(entity e) = #40; // true if self is on ground
 float pointContents(vector v) = #41; // returns a CONTENT_*
 // #42 was removed
 float fabs(float f) = #43;

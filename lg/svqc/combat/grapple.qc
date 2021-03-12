@@ -20,6 +20,8 @@ void grapplePull()
 		self.velocity -= (dist - self.grappleDistance)
 			* normalize(separated);
 	}
+
+    self.grapple.SendFlags |= 1;
 }
 
 // touch function for the grapple hook, will stick it to things and
@@ -67,6 +69,7 @@ void fireGrapple()
 	hook.movetype = MOVETYPE_BOUNCE;
 	hook.solid = SOLID_BBOX;
 	hook.classname = "hook";
+    hook.SendEntity = sendGrapple;
 
 	self.grapple = hook;
 
