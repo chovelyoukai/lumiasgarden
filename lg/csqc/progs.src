@@ -10,6 +10,6 @@ recieve.qc
 radar.qc
 damage.qc
 grapple.qc
-predict.qc
+angles.qc
 main.qc
 

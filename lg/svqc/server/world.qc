@@ -111,6 +111,8 @@ void worldspawn()
 	clientStat(STAT_LG_LOOK_NAME, EV_STRING, lookName);
 	clientStat(STAT_LG_REVERSED, EV_FLOAT, reversed);
 	clientStat(STAT_LG_REVGND, EV_FLOAT, reverseGround);
+	clientStat(STAT_LG_WALLRUN, EV_FLOAT, wallrunning);
+	clientStat(STAT_LG_WALLSIDE, EV_FLOAT, wallrunSide);
 	//clientStat(STAT_LG_TELE_TIME, EV_FLOAT, stat_tele_time);
 }
 

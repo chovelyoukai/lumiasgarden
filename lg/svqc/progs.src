@@ -20,6 +20,7 @@ combat/overload.qc
 combat/stickylauncher.qc
 combat/grapple.qc
 combat/conc.qc
+combat/pole.qc 
 combat/weapons.qc
 
 objects/triggers.qc

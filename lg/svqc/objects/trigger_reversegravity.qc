@@ -14,7 +14,6 @@ void trigger_reversegravityTouch()
         return;
     }
 
-    other.v_angle.z = 180;
     other.view_ofs = '0 0 -64';
 
     setSize(other, -1 * VEC_HULL_MAX, -1 * VEC_HULL_MIN);

@@ -8,6 +8,7 @@
 // this file is licensed under the GPL v3
 
 void swingChovel();
+void poleVault();
 
 void() anim_playerRun;
 
@@ -24,6 +25,40 @@ void() anim_playerRun = [self.runPose, anim_playerRun]
 	if (!self.velocity_x && !self.velocity_y)
 		anim_playerStand();
 }
+// pole swing animations while running
+void() anim_playerRunPole4 = [self.runPose, anim_playerRun]
+	{self.weaponframe = 0;};
+void anim_playerRunPole3()
+{
+	self.nextthink = time + 0.6;
+	self.think = anim_playerRunPole4;
+    poleVault();
+}
+void anim_playerRunPole2()
+{
+	self.nextthink = time + 0.2;
+	self.think = anim_playerRunPole3;
+}
+void() anim_playerRunPole1 = [self.runAttackPose, anim_playerRunPole2]
+	{self.weaponframe = 1;};
+
+// pole swing animations while idle
+void() anim_playerIdlePole4 = [self.idlePose, anim_playerStand]
+	{self.weaponframe = 0;};
+void anim_playerIdlePole3()
+{
+	self.nextthink = time + 0.6;
+	self.think = anim_playerIdlePole4;
+	poleVault();
+}
+void anim_playerIdlePole2()
+{
+	self.nextthink = time + 0.2;
+	self.think = anim_playerIdlePole3;
+}
+void() anim_playerIdlePole1 = [self.idleAttackPose, anim_playerIdlePole2]
+	{self.weaponframe = 1;};
+
 // chovel swing animations while running
 void() anim_playerRunChovel4 = [self.runPose, anim_playerRun]
 	{self.weaponframe = 0;};
@@ -74,17 +109,21 @@ void anim_playerAttack()
 {
 	if (self.velocity_x || self.velocity_y)
 	{
-		if (self.weapon != IT_CHOVEL)
-			anim_playerRunAttack1();
-		else
+        if (self.weapon == IT_POLE)
+            anim_playerRunPole1();
+		else if (self.weapon == IT_CHOVEL)
 			anim_playerRunChovel1();
+		else
+			anim_playerRunAttack1();
 	}
 	else
 	{
-		if (self.weapon != IT_CHOVEL)
-			anim_playerIdleAttack1();
-		else
+        if (self.weapon == IT_POLE)
+            anim_playerIdlePole1();
+		else if (self.weapon == IT_CHOVEL)
 			anim_playerIdleChovel1();
+	    else	
+			anim_playerIdleAttack1();
 	}
 }
 

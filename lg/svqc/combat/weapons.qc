@@ -54,6 +54,11 @@ void attack()
 		anim_playerAttack();
 		self.attackFinished = time + 0.96;
 	}
+    else if (self.weapon == IT_POLE)
+    {
+		anim_playerAttack();
+        self.attackFinished = time + 1.3;
+    }
 }
 
 // this is called every frame in playerPostThink, after physics is run
@@ -74,6 +79,11 @@ void weaponFrame()
             goto skipAttack;
 		}
 		else if (self.weapon == IT_CHOVEL && 
+			time < self.attackFinished)
+		{
+            goto skipAttack;
+		}
+		else if (self.weapon == IT_POLE && 
 			time < self.attackFinished)
 		{
             goto skipAttack;
@@ -110,7 +120,10 @@ void weaponFrame()
 		self.button3Reset = FALSE;
 
 	if (!self.button4)	
+    {
+        self.wallrunning = FALSE;
 		self.cantWallrun = TRUE;
+    }
 
 	checkSpew();
 }

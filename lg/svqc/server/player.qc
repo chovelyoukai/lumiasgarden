@@ -34,6 +34,7 @@ void SV_RunClientCommand()
 
     if (self.reversed == 0)
     {
+        setSize(self, VEC_HULL_MIN, VEC_HULL_MAX);
         self.v_angle.z = 360;
     }
 }

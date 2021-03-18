@@ -7,10 +7,10 @@
 // wallrun physics function called in playerPreThink
 void wallrun()
 {
-	local vector right, traceOrigin;
+	local vector right, forward, traceOrigin;
     local float jumpVel, clingVel;
 
-    jumpVel = 270;
+    jumpVel = 200;
     clingVel = 14;
 
     if (self.reversed > time)
@@ -43,7 +43,7 @@ void wallrun()
 		self.wallrunTime != 0 &&
 		self.wallrunTime <= time - 0.2)
 	{
-		right = 350 * normalize(v_right);
+		right = 450 * normalize(v_right);
 
 		// pop off the wall in the opposite direction
 		if (self.wallrunSide == WR_RIGHT)
@@ -52,9 +52,17 @@ void wallrun()
 		else if (self.wallrunSide == WR_LEFT)
 			self.velocity += right;
 
+        v_forward = normalize(v_forward);
+        forward = v_forward;
+        forward.z = 0;
+        forward = proj(v_forward, forward);
+        forward = 150 * vlen(forward) * v_forward;
+        self.velocity += forward;
+        
+        self.velocity.z += jumpVel;
+
 		self.wallrunning = 0;
 		self.wallrunTime = 0;
-		self.velocity_z += jumpVel;	
 		sound(self, CHAN_BODY, "ui/slap.wav", 1, ATTN_NORM);
 		return;
 	}
@@ -62,9 +70,9 @@ void wallrun()
 	// default 64 *
 	right = WR_MAXDIST * normalize(v_right);
 	if (self.reversed > time)
-        traceOrigin = self.origin + '0 0 16';
-    else
         traceOrigin = self.origin - '0 0 16';
+    else
+        traceOrigin = self.origin + '0 0 16';
 
 	self.wallrunning = 0;
 

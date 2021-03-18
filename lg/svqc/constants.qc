@@ -118,6 +118,7 @@ const float MSG_ENTITY    = 5;
 const float IT_ROCKET_LAUNCHER  = 0;
 const float IT_GRENADE_LAUNCHER = 1;
 const float IT_CHOVEL           = 2;
+const float IT_POLE             = 3;
 
 // primary weapon types
 const float PRIM_ROCKET_LAUNCHER = 1;
@@ -171,6 +172,8 @@ const float STAT_LG_OPEN_MENU = 41;
 const float STAT_LG_LOOK_NAME = 42;
 const float STAT_LG_REVERSED  = 43;
 const float STAT_LG_REVGND    = 44;
+const float STAT_LG_WALLRUN   = 45;
+const float STAT_LG_WALLSIDE  = 46;
 
 // flags for the func_restrictmove trigger
 const float RESTRICT_ROCKET  = 1; 
@@ -235,3 +238,5 @@ const float BLAST_RADIUS = 146;
 const float MODE_TRICKJUMP = 0;
 const float MODE_FFADM = 1;
 const float MODE_BALL = 2;
+
+const float POLE_VAULT_SPEED = 200;

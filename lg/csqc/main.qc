@@ -11,6 +11,10 @@ void CSQC_Init(float apiver, string enginename, float enginever)
 	precache_file("gfx/radar.lmp");
 	
 	playing = TRUE;
+    
+    lastRoll = 0;
+    lastOverRoll = 0;
+    lastPitch = -1;
 
 	return;
 }
@@ -41,7 +45,7 @@ void CSQC_UpdateView(float width, float height, float menushown)
 
     drawGrapples();
     
-    predict();
+    setAngles();
 
 	renderscene();
 

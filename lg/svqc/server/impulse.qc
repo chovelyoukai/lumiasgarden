@@ -59,6 +59,19 @@ void changeWeapon()
 		self.lastWeapon = self.weapon;
 		self.weapon = IT_CHOVEL;
 	}
+    else if (self.impulse == 4)
+    {
+		// set all the animations to use.
+		self.idlePose = POSE_CH_IDLE;
+		self.runPose = POSE_CH_RUN;
+		self.idleAttackPose = POSE_CH_IDLE_ATT;
+		self.runAttackPose = POSE_CH_RUN_ATT;
+
+		self.weaponmodel = "progs/weapon_views/v_pole.iqm";
+		self.weaponframe = 0;
+		self.lastWeapon = self.weapon;
+		self.weapon = IT_POLE;
+    }
 }
 
 // handle various input impulses from the client
@@ -71,7 +84,7 @@ void impulseCommands()
 		self.impulse = 0;
 		return;
 	}
-	if (self.impulse >= 1 && self.impulse <= 3)
+	if (self.impulse >= 1 && self.impulse <= 4)
 		changeWeapon();
 	else if (self.impulse == IMP_INCWEP)
 	{
@@ -129,19 +142,7 @@ void impulseCommands()
 	}
 	else if (self.impulse == 69)
 	{
-        bprint(vtos(self.v_angle));
-        bprint("\n");
-        /*
-        makeVectors(self.v_angle);
-        traceLine(self.origin + self.view_ofs, self.origin + self.view_ofs + 10000 * v_forward, 1, self);
-        local entity nudel = spawn();
-        setOrigin(nudel, trace_endpos);
-        setModel(nudel, "progs/lumia.iqm");
-        nudel.basebone = 10;
-        nudel.baseframe = 4;
-        nudel.frame = 1;
-		sprint(self, "nice\n");
-        */
+        self.weaponframe = 1;
 	}
 
 	self.impulse = 0;
