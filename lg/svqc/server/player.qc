@@ -77,7 +77,7 @@ void playerJump()
 		return;
 	}
 
-	if (!(self.flags & FL_JUMPRELEASED))
+	if (!(self.flags & FL_JUMPRELEASED) && globalMode != MODE_TRICKJUMP)
 	{
 		return; // no autobhop
 	}
